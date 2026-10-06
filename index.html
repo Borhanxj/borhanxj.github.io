@@ -1,213 +1,528 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Borhan's Website</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <title>Borhan Javadian</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Borhan Javadian — Computer Science and Engineering student at Sabancı University working on domain generalization, generalized category discovery, and high-performance sparse linear algebra.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
     <style>
-        html {
-            scroll-behavior: smooth;
+        :root {
+            --paper: #FAFAF7;
+            --ink: #1C2230;
+            --muted: #5B6474;
+            --rule: #DDE1E8;
+            --accent: #2443B5;
+            --accent-soft: #C9D2F2;
+            --sans: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
+            --serif: "Newsreader", Georgia, "Times New Roman", serif;
         }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --paper: #12161E;
+                --ink: #E6E9EF;
+                --muted: #9AA3B2;
+                --rule: #2A3140;
+                --accent: #8FA6FF;
+                --accent-soft: #2D3762;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
 
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-            background-color: #f4f4f4;
-            color: #333;
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: var(--serif);
+            font-size: 19px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        h1 {
-            font-size: 25px;
-        }
+        a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; }
+        a:hover { text-decoration-thickness: 2px; }
+        a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
-        p {
-            font-size: 20px;
-        }
+        .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
-        .profile-pic {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        /* Top bar */
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 0 0;
+            font-family: var(--sans);
+            font-size: 15px;
         }
+        .top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+        .top nav a { color: var(--muted); text-decoration: none; }
+        .top nav a:hover { color: var(--ink); }
+        .top .home { color: var(--ink); text-decoration: none; font-weight: 600; }
 
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #24292e;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: background-color 0.2s;
+        /* Hero */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 232px;
+            gap: 48px;
+            align-items: start;
+            padding: 72px 0 56px;
         }
-
-        .button:hover {
-            background-color: #444;
+        .hero h1 {
+            font-family: var(--sans);
+            font-weight: 700;
+            font-size: 52px;
+            line-height: 1.02;
+            letter-spacing: -0.025em;
+            margin: 0 0 20px;
         }
-
-        .linkedin {
-            background-color: #0077b5;
-        }
-
-        .linkedin:hover {
-            background-color: #005983;
-        }
-
-        .email {
-            background-color: #d44638;
-        }
-
-        .email:hover {
-            background-color: #a7362b;
-        }
-
-        .cv {
-            background-color: #556b6f;
-        }
-
-        .cv:hover {
-            background-color: #455a5f;
-        }
-
-        .button-group {
-            margin-top: 30px;
+        .hero .lede { margin: 0 0 24px; max-width: 34em; }
+        .contact {
             display: flex;
             flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            gap: 10px 22px;
+            font-family: var(--sans);
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .photo {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin-bottom: 24px;
+            border: 1px solid var(--rule);
         }
 
-        .projects {
-            list-style-type: none;
-            padding: 0;
-            margin-top: 30px;
+        /* Sparsity plot */
+        figure.spy { margin: 0; }
+        .spy canvas {
+            display: block;
+            width: 232px;
+            height: 232px;
+            border: 1px solid var(--rule);
+            background: var(--paper);
         }
-
-        .projects li {
-            margin: 10px 0;
-            font-size: 18px;
-        }
-
-        .projects a {
-            color: #007acc;
-            text-decoration: none;
-        }
-
-        .projects a:hover {
-            text-decoration: underline;
-        }
-
-        .project-card {
-            background-color: white;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
-        }
-
-        .project-card h3 {
-            margin-top: 0;
-            font-size: 22px;
-        }
-
-        .project-card p {
-            font-size: 16px;
-            color: #555;
-        }
-
-        .card-link {
-            display: inline-block;
+        .spy figcaption {
+            font-family: var(--sans);
+            font-size: 13px;
+            line-height: 1.45;
+            color: var(--muted);
             margin-top: 10px;
-            color: #007acc;
-            text-decoration: none;
         }
-
-        .card-link:hover {
+        .spy button {
+            font: inherit;
+            font-weight: 600;
+            color: var(--accent);
+            background: none;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
             text-decoration: underline;
+            text-underline-offset: 3px;
         }
 
-        .about {
-            max-width: 600px;
-            margin: 0 auto;
-            font-size: 18px;
-            line-height: 1.6;
-            color: #444;
+        /* Sections */
+        section { border-top: 1px solid var(--rule); padding: 40px 0 44px; }
+        h2 {
+            font-family: var(--sans);
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin: 0 0 24px;
         }
 
-        @media (max-width: 600px) {
-            .profile-pic {
-                width: 100px;
-                height: 100px;
-            }
+        .entry { margin-bottom: 30px; }
+        .entry:last-child { margin-bottom: 0; }
+        .entry-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 16px;
+            font-family: var(--sans);
+        }
+        .entry-head h3 { font-size: 18px; font-weight: 600; margin: 0; line-height: 1.35; }
+        .when {
+            font-family: var(--sans);
+            font-size: 14px;
+            color: var(--muted);
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+        .role {
+            font-family: var(--sans);
+            font-size: 15px;
+            color: var(--muted);
+            margin: 2px 0 8px;
+        }
+        .entry p { margin: 0 0 8px; }
+        .entry ul { margin: 0; padding-left: 1.1em; }
+        .entry li { margin: 2px 0; }
 
-            .button {
-                display: block;
-                margin: 10px auto;
-                width: 80%;
-                font-size: 16px;
-            }
+        .interests { margin: 0; }
 
-            .project-card {
-                margin: 15px 10px;
-                padding: 15px;
-            }
+        /* Projects */
+        .projects { list-style: none; margin: 0; padding: 0; }
+        .projects li { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+        .projects li:first-child { padding-top: 0; }
+        .projects li:last-child { border-bottom: 0; padding-bottom: 0; }
+        .projects .name { font-family: var(--sans); font-weight: 600; font-size: 17px; }
+        .projects .name a { margin-left: 10px; font-weight: 500; font-size: 15px; }
+        .projects p { margin: 2px 0 0; }
 
-            .about,
-            .project-card {
-                text-align: center;
-            }
+        /* Skills */
+        dl.skills { display: grid; grid-template-columns: 170px 1fr; gap: 10px 24px; margin: 0; }
+        dl.skills dt { font-family: var(--sans); font-weight: 600; font-size: 15px; padding-top: 2px; }
+        dl.skills dd { margin: 0; }
 
-            .button-group {
-                flex-direction: column;
-                gap: 15px;
-            }
+        ul.plain { margin: 0; padding-left: 1.1em; }
+        ul.plain li { margin: 4px 0; }
+
+        footer {
+            border-top: 1px solid var(--rule);
+            padding: 28px 0 56px;
+            font-family: var(--sans);
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 680px) {
+            body { font-size: 18px; }
+            .top { flex-direction: column; align-items: flex-start; }
+            .hero { grid-template-columns: 1fr; gap: 36px; padding: 48px 0 40px; }
+            .hero h1 { font-size: 40px; }
+            .spy canvas { width: 200px; height: 200px; }
+            .entry-head { flex-direction: column; gap: 0; }
+            dl.skills { grid-template-columns: 1fr; gap: 2px; }
+            dl.skills dd { margin-bottom: 10px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
         }
     </style>
 </head>
 
 <body>
-    <h1>Borhan Javadian</h1>
+    <div class="wrap">
+        <header class="top">
+            <a class="home" href="#">Borhan Javadian</a>
+            <nav aria-label="Sections">
+                <a href="#research">Research</a>
+                <a href="#projects">Projects</a>
+                <a href="#teaching">Teaching</a>
+                <a href="#education">Education</a>
+                <a href="src/cv.pdf" target="_blank" rel="noopener">CV</a>
+            </nav>
+        </header>
 
-    <img src="src/me.jpg" alt="My photo" class="profile-pic">
-    <h2>About Me</h2>
-    <p class="about">
-        I'm a computer science student passionate about cybersecurity, cryptography, and building cool things.
-        I love working on hands-on projects, exploring new tech, and occasionally (legally) hacking stuff!
-    </p>
+        <div class="hero">
+            <div>
+                <img src="src/me.jpg" alt="Photo of Borhan Javadian" class="photo">
+                <h1>Borhan Javadian</h1>
+                <p class="lede">
+                    I'm a Computer Science and Engineering student at Sabancı University in Istanbul, with a minor in
+                    Mathematics. I work on two kinds of problems: getting vision models to recognize new categories in
+                    images from domains they haven't seen, with remote sensing as the main application, and making
+                    sparse linear algebra run fast on CPUs and GPUs. Before that, I worked on matrix multiplication
+                    under fully homomorphic encryption.
+                </p>
+                <div class="contact">
+                    <a href="mailto:borhan.javadian@sabanciuniv.edu">borhan.javadian@sabanciuniv.edu</a>
+                    <a href="https://github.com/Borhanxj" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://linkedin.com/in/borhan-javadian-b0692a347" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="src/cv.pdf" target="_blank" rel="noopener">CV (PDF)</a>
+                </div>
+            </div>
 
-    <div class="button-group">
-        <a href="https://github.com/borhanxj" class="button" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/borhan-javadian-b0692a347" class="button linkedin" target="_blank">LinkedIn</a>
-        <a href="src/cv.pdf" class="button cv" target="_blank">CV</a>
-        <a href="mailto:borhan.javadian@proton.me" class="button email">Email</a>
+            <figure class="spy">
+                <canvas id="spy" width="232" height="232" role="img"
+                    aria-label="Sparsity pattern of a sparse matrix whose nonzeros move into a narrow band along the diagonal after reordering."></canvas>
+                <figcaption>
+                    Nonzeros of a sparse matrix settling into a band after a bandwidth-reducing reordering, the kind of
+                    preprocessing I test for SpMV.
+                    <button type="button" id="reorder">Shuffle and reorder</button>
+                </figcaption>
+            </figure>
+        </div>
+
+        <section aria-labelledby="interests-h">
+            <h2 id="interests-h">Research interests</h2>
+            <p class="interests">
+                Computer vision, representation learning, domain generalization, generalized category discovery,
+                high-performance computing, parallel algorithms, GPU computing, and sparse linear algebra.
+            </p>
+        </section>
+
+        <section id="research" aria-labelledby="research-h">
+            <h2 id="research-h">Research</h2>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>Domain generalization for generalized category discovery in remote sensing</h3>
+                    <span class="when">Fall 2026 – present</span>
+                </div>
+                <div class="role">Graduation project, Sabancı University · Prof. Erchan Aptoula</div>
+                <p>
+                    Generalized category discovery when test images come from domains not seen during training. I'm
+                    reproducing recent GCD and DG-GCD methods and comparing them under the same datasets and
+                    evaluation settings, before moving to a new method in the second half of the project.
+                </p>
+                <ul>
+                    <li>Built a GCD pipeline with DINO features, k-means and semi-supervised k-means, contrastive
+                        training, Hungarian matching, and Old/New/All accuracy.</li>
+                    <li>Currently studying DG2CD-Net, HiDISC, and related work.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>Sparse matrix–vector multiplication</h3>
+                    <span class="when">Summer 2026 – present</span>
+                </div>
+                <div class="role">Research project, Sabancı University · with guidance from Prof. Kamer Kaya</div>
+                <p>
+                    Implementations and optimizations of SpMV across different hardware and execution settings, with
+                    recent work focused on comparing newer SpMV methods in a common benchmarking environment.
+                </p>
+                <ul>
+                    <li>Sequential CSR, OpenMP, CUDA, MPI, and hybrid CPU–GPU versions of SpMV.</li>
+                    <li>Compared matrix reorderings (RCM, AMD, GPS, and graph-based methods) and their effect on
+                        performance.</li>
+                    <li>Benchmarking code across sparse matrices, thread counts, and execution settings.</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>Fully homomorphic encryption for matrix multiplication</h3>
+                    <span class="when">Jul 2025 – Feb 2026</span>
+                </div>
+                <div class="role">PURE research intern, later research assistant, Sabancı University · Prof. Erkay Savaş</div>
+                <p>
+                    Matrix multiplication under the CKKS scheme using Microsoft SEAL. Presented at the Sabancı
+                    University PURE research symposium.
+                </p>
+                <ul>
+                    <li>Implemented and compared Halevi–Shoup and bicyclic encoding in C++.</li>
+                    <li>Benchmarked runtime, ciphertext rotations, and multiplicative depth across matrix sizes.</li>
+                    <li>Tested batching and chunking for encrypted matrix–vector multiplication.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="projects" aria-labelledby="projects-h">
+            <h2 id="projects-h">Selected projects</h2>
+            <!-- Replace the GitHub profile links below with each project's repository URL. -->
+            <ul class="projects">
+                <li>
+                    <div class="name">Generalized Category Discovery <a href="https://github.com/Borhanxj" target="_blank" rel="noopener">GitHub</a></div>
+                    <p>PyTorch implementation of GCD on CIFAR-10 with DINO features, contrastive losses, k-means,
+                        semi-supervised k-means, and clustering evaluation.</p>
+                </li>
+                <li>
+                    <div class="name">SpMV Optimization <a href="https://github.com/Borhanxj" target="_blank" rel="noopener">GitHub</a></div>
+                    <p>C++ SpMV with sequential and OpenMP kernels, blocked methods, matrix reorderings, benchmarks,
+                        and result plots.</p>
+                </li>
+                <li>
+                    <div class="name">Contree-Parallel</div>
+                    <p>Parallel optimal classification-tree construction using branch-and-bound, with CPU and GPU
+                        implementations.</p>
+                </li>
+                <li>
+                    <div class="name">FHE Matrix Multiplication <a href="https://github.com/Borhanxj" target="_blank" rel="noopener">GitHub</a></div>
+                    <p>C++ implementation and benchmarks for CKKS matrix operations using Microsoft SEAL.</p>
+                </li>
+                <li>
+                    <div class="name">ECC Signal Protocol <a href="https://github.com/Borhanxj" target="_blank" rel="noopener">GitHub</a></div>
+                    <p>A Signal-style messaging protocol with elliptic-curve key exchange, Ed25519 signatures, and
+                        forward secrecy.</p>
+                </li>
+            </ul>
+        </section>
+
+        <section id="teaching" aria-labelledby="teaching-h">
+            <h2 id="teaching-h">Teaching and industry</h2>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>Learning assistant, Sabancı University</h3>
+                    <span class="when">2024 – present</span>
+                </div>
+                <p>Labs, office hours, recitations, grading, and exams for:</p>
+                <ul>
+                    <li>Database Systems (CS 306), Fall 2026</li>
+                    <li>Blockchain: Security and Applications (CS 438), Spring 2025</li>
+                    <li>Logic and Digital System Design (CS 303), Fall 2024 – Spring 2025</li>
+                    <li>Calculus I (MATH 101), Spring 2024</li>
+                </ul>
+            </div>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>Cybersecurity intern, Proteo Cyber Defence AB</h3>
+                    <span class="when">Summer 2026</span>
+                </div>
+                <div class="role">Remote</div>
+                <p>Attack-surface analysis, vulnerability assessment, network reconnaissance, EDR/XDR, incident
+                    response, and detection engineering.</p>
+            </div>
+        </section>
+
+        <section id="education" aria-labelledby="education-h">
+            <h2 id="education-h">Education</h2>
+
+            <div class="entry">
+                <div class="entry-head">
+                    <h3>B.Sc. in Computer Science and Engineering, Sabancı University</h3>
+                    <span class="when">2023 – Jun 2027 (expected)</span>
+                </div>
+                <div class="role">CGPA 3.82/4.00 · Minor in Mathematics, GPA 4.00/4.00</div>
+                <ul>
+                    <li>Dean's Honor or High Honor List in every completed semester.</li>
+                    <li>Academic Success Scholarship (50% tuition) for 2025–26 and 2026–27, upgraded from a 25%
+                        admission scholarship.</li>
+                    <li>Coursework includes Algorithms, Parallel Computing, Cryptography, Computer and Network
+                        Security, Digital Image and Video Analysis, Linear Algebra, Probability, Abstract Algebra, and
+                        Mathematical Analysis.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section aria-labelledby="honors-h">
+            <h2 id="honors-h">Awards and honors</h2>
+            <ul class="plain">
+                <li>Ranked first in Computer and Network Security.</li>
+                <li>Highest class score in Parallel Computing, Blockchain: Security and Applications, and Elementary
+                    Number Theory.</li>
+                <li>Qualified for the Advanced Group, inzva Algorithm Competition Summer Camp, 2026.</li>
+                <li>1st Place and Gold Medal, Caribou Mathematics Contest, 2021.</li>
+                <li>Distinction, Fermat Mathematics Contest, University of Waterloo, 2021.</li>
+            </ul>
+        </section>
+
+        <section aria-labelledby="skills-h">
+            <h2 id="skills-h">Skills and languages</h2>
+            <dl class="skills">
+                <dt>Programming</dt>
+                <dd>Python, C++, C, Go, CUDA, JavaScript, SQL, Bash, LaTeX</dd>
+                <dt>Machine learning</dt>
+                <dd>PyTorch, torchvision, scikit-learn, DINO/DINOv2, Vision Transformers, contrastive learning,
+                    clustering</dd>
+                <dt>Parallel computing</dt>
+                <dd>CUDA, OpenMP, MPI, SLURM, distributed-memory programming, sparse linear algebra</dd>
+                <dt>Cryptography</dt>
+                <dd>CKKS, Microsoft SEAL, elliptic-curve cryptography</dd>
+                <dt>Systems</dt>
+                <dd>Linux, Git, computer networks, AWS, PostgreSQL</dd>
+                <dt>Languages</dt>
+                <dd>Persian (native), English (C1), Turkish (full professional proficiency)</dd>
+            </dl>
+        </section>
+
+        <footer>
+            Borhan Javadian, Istanbul · Updated October 2026
+        </footer>
     </div>
 
-    <h2>Projects</h2>
+    <script>
+        (function () {
+            const canvas = document.getElementById("spy");
+            const button = document.getElementById("reorder");
+            if (!canvas || !canvas.getContext) return;
+            const ctx = canvas.getContext("2d");
+            const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+            const N = 40;
 
-    <div class="project-card">
-        <h3>Port Scanner</h3>
-        <p>A Python CLI tool that scans open ports on a given host.</p>
-        <a href="https://github.com/Borhanxj/py-port-scanner" target="_blank" class="card-link">View on GitHub</a>
-    </div>
+            // Banded symmetric pattern with a few far-off entries.
+            const entries = [];
+            const seen = new Set();
+            function add(i, j) {
+                const key = i + "," + j;
+                if (seen.has(key)) return;
+                seen.add(key);
+                entries.push([i, j]);
+                if (i !== j) { seen.add(j + "," + i); entries.push([j, i]); }
+            }
+            for (let i = 0; i < N; i++) {
+                add(i, i);
+                for (let d = 1; d <= 3; d++) {
+                    if (i + d < N && Math.random() < 0.72 - d * 0.12) add(i, i + d);
+                }
+            }
+            for (let k = 0; k < 5; k++) {
+                const i = Math.floor(Math.random() * N);
+                const j = Math.floor(Math.random() * N);
+                if (Math.abs(i - j) > 8) add(i, j);
+            }
 
-    <div class="project-card">
-        <h3>DeFi App</h3>
-        <p>Decentralized finance app built using smart contracts.</p>
-        <a href="https://github.com/Borhanxj/defi-blockchain-app" target="_blank" class="card-link">View on GitHub</a>
-    </div>
+            let perm = shuffled();
+            function shuffled() {
+                const p = Array.from({ length: N }, (_, i) => i);
+                for (let i = N - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [p[i], p[j]] = [p[j], p[i]];
+                }
+                return p;
+            }
 
-    <div class="project-card">
-        <h3>Stress Level Analysis</h3>
-        <p>Data science project analyzing stress level using machine learning and visualizations.</p>
-        <a href="https://github.com/Borhanxj/stress-level-analysis" target="_blank" class="card-link">View on GitHub</a>
-    </div>
+            function setup() {
+                const dpr = window.devicePixelRatio || 1;
+                const size = canvas.getBoundingClientRect().width;
+                canvas.width = Math.round(size * dpr);
+                canvas.height = Math.round(size * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                return size;
+            }
 
+            function draw(t) {
+                const size = canvas.getBoundingClientRect().width;
+                const styles = getComputedStyle(document.documentElement);
+                const dot = styles.getPropertyValue("--accent").trim();
+                const pad = 10;
+                const cell = (size - pad * 2) / N;
+                ctx.clearRect(0, 0, size, size);
+                ctx.fillStyle = dot;
+                const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                const s = cell * 0.78;
+                for (const [i, j] of entries) {
+                    const r = perm[i] + (i - perm[i]) * e;
+                    const c = perm[j] + (j - perm[j]) * e;
+                    ctx.fillRect(pad + c * cell + (cell - s) / 2, pad + r * cell + (cell - s) / 2, s, s);
+                }
+            }
+
+            let raf = null;
+            function run() {
+                if (raf) cancelAnimationFrame(raf);
+                setup();
+                if (reduceMotion) { draw(1); return; }
+                draw(0);
+                const hold = 700, dur = 1800;
+                const start = performance.now();
+                function frame(now) {
+                    const t = Math.min(Math.max((now - start - hold) / dur, 0), 1);
+                    draw(t);
+                    if (t < 1) raf = requestAnimationFrame(frame);
+                }
+                raf = requestAnimationFrame(frame);
+            }
+
+            button.addEventListener("click", function () { perm = shuffled(); run(); });
+            window.addEventListener("resize", function () { setup(); draw(1); });
+            window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () { draw(1); });
+            run();
+        })();
+    </script>
 </body>
 
 </html>
